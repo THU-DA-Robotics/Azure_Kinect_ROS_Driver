@@ -7,6 +7,8 @@
   <arg name="tf_prefix"         default="" />                       <!-- Prefix added to tf frame IDs. It typically contains a trailing '_' unless empty. -->
   <arg name="overwrite_robot_description" default="true" />         <!-- Flag to publish a standalone azure_description instead of the default robot_descrition parameter-->
 
+   <arg name="node_start_delay" default="0.0" />  <!-- delay for second camera in seconds -->
+
   <group if="$(arg overwrite_robot_description)">
     <param name="robot_description"
       command="xacro $(find azure_kinect_ros_driver)/urdf/azure_kinect.urdf.xacro tf_prefix:=$(arg tf_prefix)" />
@@ -56,6 +58,9 @@
   <arg name="imu_rate_target"             default="0"/>               <!-- Desired output rate of IMU messages. Set to 0 (default) for full rate (1.6 kHz). -->
   <arg name="wired_sync_mode"             default="0"/>               <!-- Wired sync mode. 0: OFF, 1: MASTER, 2: SUBORDINATE. -->
   <arg name="subordinate_delay_off_master_usec" default="0"/>         <!-- Delay subordinate camera off master camera by specified amount in usec. -->
+  <arg name="color_control_mode_auto"     default="true" />           <!-- Color control mode (true: auto; false: manual). -->
+  <arg name="color_exposure_usec"         default="20000" />          <!-- Exposure time in usec (only used if the color control mode is mannual). -->
+
 
   <!-- Processing Modules -->
   <arg name="rgb_processing"                  default="true"  />
@@ -82,7 +87,7 @@
     <!-- Start the K4A sensor driver -->
     <node pkg="nodelet" type="nodelet" name="k4a_ros_bridge"
           args="load Azure_Kinect_ROS_Driver/K4AROSBridgeNodelet $(arg manager) --no-bond"
-          respawn="true">
+          respawn="true" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " >
       <param name="depth_enabled"                 value="$(arg depth_enabled)" />
       <param name="depth_mode"                    value="$(arg depth_mode)" />
       <param name="depth_unit"                    value="$(arg depth_unit)" />
@@ -93,7 +98,7 @@
       <param name="point_cloud"                   value="$(arg point_cloud)" />
       <param name="rgb_point_cloud"               value="$(arg rgb_point_cloud)" />
       <param name="point_cloud_in_depth_frame"    value="$(arg point_cloud_in_depth_frame)" />
-      <param name="sensor_sn"                     value="$(arg sensor_sn)" />
+      <param name="sensor_sn"                     type="string"       value="$(arg sensor_sn)" />
       <param name="tf_prefix"                     value="$(arg tf_prefix)" />
       <param name="recording_file"                value="$(arg recording_file)" />
       <param name="recording_loop_enabled"        value="$(arg recording_loop_enabled)" />
@@ -103,6 +108,8 @@
       <param name="imu_rate_target"               value="$(arg imu_rate_target)"/>
       <param name="wired_sync_mode"               value="$(arg wired_sync_mode)"/>
       <param name="subordinate_delay_off_master_usec" value="$(arg subordinate_delay_off_master_usec)"/>
+      <param name="color_control_mode_auto"       value="$(arg color_control_mode_auto)"/>
+      <param name="color_exposure_usec"           value="$(arg color_exposure_usec)"/>
     </node>
 
     <!-- Load standard constellation of processing nodelets -->

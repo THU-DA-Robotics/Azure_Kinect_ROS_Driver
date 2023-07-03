@@ -83,7 +83,14 @@
               int, 0)                                                                                                  \
   LIST_ENTRY(subordinate_delay_off_master_usec,                                                                        \
               "Delay subordinate camera off master camera by specified amount in usec.",                               \
-              int, 0)
+              int, 0)                                                                                                  \
+  LIST_ENTRY(color_control_mode_auto,                                                                                  \
+              "Color control mode (true: auto; false: manual).",                                                       \
+              bool, true)                                                                                              \
+  LIST_ENTRY(color_exposure_usec,                                                                                      \
+              "Exposure time in usec (only used if the color control mode is mannual).",                               \
+              int, 10000)    
+
 
 class K4AROSDeviceParams
 {

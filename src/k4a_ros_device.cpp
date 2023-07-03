@@ -388,6 +388,13 @@ k4a_result_t K4AROSDevice::startCameras()
   {
     ROS_INFO_STREAM("STARTING CAMERAS");
     k4a_device_.start_cameras(&k4a_configuration);
+
+    // mingrui added, auto/manual exposure
+    if(params_.color_control_mode_auto){
+      k4a_device_.set_color_control(K4A_COLOR_CONTROL_EXPOSURE_TIME_ABSOLUTE, K4A_COLOR_CONTROL_MODE_AUTO , 0);
+    }else{
+      k4a_device_.set_color_control(K4A_COLOR_CONTROL_EXPOSURE_TIME_ABSOLUTE, K4A_COLOR_CONTROL_MODE_MANUAL, params_.color_exposure_usec);
+    }
   }
 
   // Cannot assume the device timestamp begins increasing upon starting the cameras.
