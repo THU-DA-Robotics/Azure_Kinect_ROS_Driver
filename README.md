@@ -6,6 +6,12 @@ This repository uses the [Azure Kinect Sensor SDK](https://github.com/microsoft/
 
 [![Build Status](https://dev.azure.com/ms/Azure_Kinect_ROS_Driver/_apis/build/status/microsoft.Azure_Kinect_ROS_Driver?branchName=melodic)](https://dev.azure.com/ms/Azure_Kinect_ROS_Driver/_build/latest?definitionId=166&branchName=melodic)
 
+## IRM-Lab's Change Log
+
+* June 2023, by Mingrui Yu: 
+    * add support for changing the color exposure mode (auto / mannual) and the exposure time.
+    * add argument "node_delay_time" in the rgbd.launch (useful for mutiple-device settings).
+
 ## Features
 
 This ROS node outputs a variety of sensor data, including:

@@ -36,6 +36,12 @@ The node accepts the following parameters:
 - `imu_rate_target` (int) : Defaults to `0`. Controls the desired IMU message rate, which is rounded to the closest allowable value.  IMU samples from the device are integrated and a mean sample is published at this rate. A value of `0` is interpreted to mean a request for the maximum rate from the sensor (approx. 1.6 kHz).
 - `wired_sync_mode` (int) : Defaults to `0`. Sets the external wired synchronization mode. The modes are: `0: OFF (STANDALONE)`, `1: MASTER`, `2: SUBORDINATE`.
 - `subordinate_delay_off_master_usec` (int) : Defaults to `0`. Delay subordinate camera off master camera by specified amount in usec. Recommended minimum value is 160.
+- **Below are added by IRM-Lab:**
+- `node_start_delay` (float) : delay for launching the camera in seconds.
+- `color_control_mode_auto` (bool) : Color control mode (true: auto; false: manual).
+- `color_exposure_usec` (int) : Exposure time in usec (only used if the color control mode is mannual).
+
+
 #### Parameter Restrictions
 
 Some parameters are incompatible with each other. The ROS node attempts to detect incompatible parameters and provide a runtime error to roserr: however, not all potential incompatibilities have been accounted for. In these instances, the Azure Kinect Sensor SDK may throw an exception.
